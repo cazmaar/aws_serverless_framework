@@ -1,0 +1,25 @@
+service: thumbnail
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-2
+  profile: kazeem
+  stage: dev
+  timeout: 10
+  memorySize: 128
+  environment:
+    THUMBNAIL_SIZE: 128
+    REGION_NAME: ${self:provider.region} # to use a value from his own file.
+  iam:
+    role:
+      statements:
+        - Effect: 'Allow'
+          Resource: "*"
+          Action: "s3:*"
+
+
+functions:
+  hello:
+    handler: index.s3_thumbnail_generator
